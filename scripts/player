@@ -1,0 +1,56 @@
+#! /bin/bash
+# /etc/init.d/player
+
+### BEGIN INIT INFO
+# Provides:          player
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Simple script to start an Internet radio player
+# Description:       A simple script from www.stuffaboutcode.com which will start / stop a program a boot / shutdown.
+### END INIT INFO
+
+# Carry out specific functions when asked to by the system
+
+case "$1" in
+    start)
+        echo "Starting Exea Media Player..."
+
+
+        # Verify internet connection
+        echo "Cheking Internet connection..."
+        ping -c 4 www.google.com > /dev/null
+        if [ "$?" -eq 0 ]; then
+		echo "Internet connection was verified successfully..."
+        else
+    		echo "Warning: There are not Internet connection"
+        fi
+
+        # Run streaming
+        echo 'Loading streaming player...'
+        /home/pi/ExeaInternetRadio/emp/src/player.py & > /dev/null
+        ;;
+    stop)
+        echo "Stopping Exea Media Player..."
+        killall player.py > /dev/null
+        if [ "$?" -eq 0 ]; then
+            echo "Stopped"
+        else
+            echo "Error: Process is not running"
+            exit 1
+        fi
+
+        ;;
+    restart)
+        echo "Restarting Exea Media Player..."
+        service player stop
+        service player start
+        ;;
+    *)
+        echo "Usage: /etc/init.d/player {start|stop|restart}"
+        exit 1
+        ;;
+esac
+
+exit 0

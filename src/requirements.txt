@@ -1,0 +1,5 @@
+python-vlc
+configparser
+termcolor
+rpi.gpio
+netifaces
