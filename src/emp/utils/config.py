@@ -26,3 +26,12 @@ class Config(metaclass=SingletonMeta):
     
     def get_brand(self):
         return self.config['PLAYER']['BRAND']
+
+    def get_backup_path(self):
+        return self.config['PLAYER']['BACKUP_FOLDER']
+    
+    def get_log_level(self):
+        return self.config['LOGGER']['LOGLEVEL']
+    
+    def get_log_file(self):
+        return self.config['LOGGER']['LOGFILE']

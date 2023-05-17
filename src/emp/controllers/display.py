@@ -48,13 +48,11 @@ def display():
             if not ipaddr:
                 lcd.message('Sin Internet\n')
             else:
-                lcd.message( ipaddr )
-            sleep(2)
+                lcd.message( ipaddr + "\n" )
 
             #Show date for 10 seconds
             i = 0
-            while i<5:
-                lcd.clear()
+            while i<10:
                 lcd.message(datetime.now().strftime('%b %d  %H:%M:%S\n'))
                 sleep(1)
                 i = i+1

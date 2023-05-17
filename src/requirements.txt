@@ -3,3 +3,4 @@ configparser
 termcolor
 rpi.gpio
 netifaces
+mutagen

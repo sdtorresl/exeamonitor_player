@@ -1,21 +1,21 @@
 from time import sleep
 from emp.models.song import Song
-from emp.repositories.player_repository import PlayerRepository
 from emp.controllers.status import PlayerStatus
+from emp.services.player_service import PlayerService
 from emp.utils.singleton import SingletonMeta
 import vlc
 
 
 class Player(metaclass=SingletonMeta):
-    def __init__(self, pos, playerRepository: PlayerRepository):
+    def __init__(self, pos, playerService: PlayerService):
         self.pos = pos
         # Create instance of VLC player
         self.player: vlc.MediaPlayer = vlc.MediaPlayer()
-        self.playerRepository: PlayerRepository = playerRepository
+        self.playerService: PlayerService = playerService
         self.__backoff = 1
 
     def play(self):
-        next_song: Song = self.playerRepository.getNext(self.pos)
+        next_song: Song = self.playerService.getNext(self.pos)
         player_status = PlayerStatus()
         player_status.metadata = next_song.title + "\n" + \
             next_song.artist.name if next_song.artist is not None else ""

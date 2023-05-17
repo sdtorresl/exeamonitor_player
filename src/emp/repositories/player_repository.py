@@ -1,17 +1,7 @@
-import json
-import requests
-from emp.utils.singleton import SingletonMeta
 from emp.models.song import Song
+from emp.utils.singleton import SingletonMeta
 
 class PlayerRepository(metaclass=SingletonMeta):
-
-    def __init__(self, base_url):
-        self.base_url = base_url
-
-    def getNext(self, pos) -> Song:
-        endpoint = self.base_url + "/player/next/" + str(pos) + ".json?cached=false"
-        jsonResponse = requests.request("GET", endpoint)
-        response = json.loads(jsonResponse.text)
-        return Song.from_dict(response)
-
-
+    def get_next(self, str) -> Song:
+        """Get next song."""
+        pass
