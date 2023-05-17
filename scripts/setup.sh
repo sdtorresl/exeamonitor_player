@@ -33,7 +33,7 @@ echo "Updating system..."
 apt-get -y update
 
 echo "Installing some tools..."
-apt-get install -y python3-vlc python3-dev python3-setuptools python3-pip lirc liblircclient-dev oracle-java8-jdk 
+apt-get install -y python3-vlc python3-dev python3-setuptools python3-pip
 
 echo "Installing dependencies"
 cd $HOME_PI/exeamonitor_player/src
