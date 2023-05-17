@@ -2,6 +2,7 @@ import configparser
 from emp.utils.singleton import SingletonMeta
 import os
 
+
 class Config(metaclass=SingletonMeta):
     CONFIG_URL = "../../../config/config.ini"
 
@@ -11,9 +12,6 @@ class Config(metaclass=SingletonMeta):
         # Use the root folder as the base for accessing files and directories
         file_path = os.path.join(script_dir, self.CONFIG_URL)
 
-        print(script_dir)
-        print(file_path)
-        
         try:
             self.config = configparser.ConfigParser()
             self.config.read(file_path)
@@ -22,24 +20,24 @@ class Config(metaclass=SingletonMeta):
 
     def get_url(self):
         return self.config['SERVER']['URL']
-    
+
     def get_pos_id(self):
         return self.config['PLAYER']['POSID']
 
     def get_title(self):
         return self.config['PLAYER']['TITLE']
-    
+
     def get_serial(self):
         return self.config['PLAYER']['SERIAL']
-    
+
     def get_brand(self):
         return self.config['PLAYER']['BRAND']
 
     def get_backup_path(self):
         return self.config['PLAYER']['BACKUP_FOLDER']
-    
+
     def get_log_level(self):
         return self.config['LOGGER']['LOGLEVEL']
-    
+
     def get_log_file(self):
         return self.config['LOGGER']['LOGFILE']

@@ -6,21 +6,23 @@ from emp.utils.singleton import SingletonMeta
 
 class Logger(metaclass=SingletonMeta):
     def __init__(self):
-        config : Config = Config()
+        config: Config = Config()
         self.logger = logging.getLogger('EMP')
-        
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        file_formatter = logging.Formatter(fmt='[%(asctime)s] %(name)s [%(levelname)s]: %(message)s',datefmt='%y-%m-%d %H:%M:%S')
+
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        file_formatter = logging.Formatter(
+            fmt='[%(asctime)s] %(name)s [%(levelname)s]: %(message)s', datefmt='%y-%m-%d %H:%M:%S')
 
         # Create a file handler
-        rotating_file_handler = RotatingFileHandler(filename=config.get_log_file(), mode='a', maxBytes=1024000, backupCount=30)
+        rotating_file_handler = RotatingFileHandler(
+            filename=config.get_log_file(), mode='wa', maxBytes=1024000, backupCount=30)
         stream_handler = logging.StreamHandler()
 
         # Set log level
-        log_level= self.get_level(config.get_log_level())
+        log_level = self.get_level(config.get_log_level())
         self.logger.setLevel(log_level)
 
-        print("Log level: " + str(log_level))
         stream_handler.setLevel(log_level)
         rotating_file_handler.setLevel(log_level)
 
@@ -40,13 +42,13 @@ class Logger(metaclass=SingletonMeta):
                 'ERROR': logging.ERROR,
                 'FATAL': logging.FATAL,
                 'INFO': logging.INFO,
-                'WARNING': logging.WARNING, 
+                'WARNING': logging.WARNING,
             }
 
             return dict[level]
         except KeyError:
             raise Exception("Invalid log level")
-        
+
     def info(self, str):
         self.logger.info(str)
 
@@ -64,5 +66,3 @@ class Logger(metaclass=SingletonMeta):
 
     def fatal(self, str):
         self.logger.fatal(str)
-
-        

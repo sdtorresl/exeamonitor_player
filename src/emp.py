@@ -15,9 +15,10 @@ import RPi.GPIO as GPIO
 GPIO.setwarnings(False)
 logger = Logger()
 
+
 def start_play():
     config = Config()
-    
+
     playerService = PlayerService()
     player = Player(config.get_pos_id(), playerService)
 
@@ -25,7 +26,8 @@ def start_play():
         player.play()
     except Exception as e:
         logger.critical("Critical exception")
-        print(e)
+        logger.critical(e)
+
 
 def display_info():
     try:
@@ -33,11 +35,11 @@ def display_info():
     except Exception as e:
         lcd = LCD()
         lcd.clear()
-        print(e)
+        logger.critical(e)
+
 
 if __name__ == '__main__':
-
+    logger.info("Program started!")
     # Create an event object to signal the thread to exit
     Thread(target=start_play, args=()).start()
     Thread(target=display_info, args=()).start()
-  

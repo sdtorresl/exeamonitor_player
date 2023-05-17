@@ -2,6 +2,7 @@ from emp.utils.singleton import SingletonMeta
 from enum import Enum
 import vlc
 
+
 class Status(Enum):
     PLAYING = 'Reproduciendo'
     STOPPED = 'Detenido'
@@ -9,9 +10,11 @@ class Status(Enum):
     PAUSED = 'Pausado'
     UNKNOWN = 'Desconocido'
 
+
 class Connectivity(Enum):
     ONLINE = "En linea"
     OFFLINE = "Desconectado"
+
 
 class PlayerStatus(metaclass=SingletonMeta):
     def __init__(self) -> None:
@@ -21,7 +24,7 @@ class PlayerStatus(metaclass=SingletonMeta):
 
     def get_status(self):
         return str(self._status.value) if self._status is not None else ""
-    
+
     def set_status(self, status):
         if status == vlc.State.Opening:
             self._status = Status.OPENING
@@ -38,11 +41,10 @@ class PlayerStatus(metaclass=SingletonMeta):
     def connectivity(self):
         return self._connectivity
 
-    @connectivity.setter    
+    @connectivity.setter
     def connectivity(self, conn_status):
         if isinstance(conn_status, Connectivity):
-            print(self._connectivity)
             self._connectivity = conn_status
         else:
-            raise ValueError("Invalid value for connectivity. Expected Connectivity.")
-
+            raise ValueError(
+                "Invalid value for connectivity. Expected Connectivity.")
