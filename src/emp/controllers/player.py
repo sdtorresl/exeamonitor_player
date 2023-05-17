@@ -1,4 +1,6 @@
+from datetime import time
 from time import sleep
+from emp.controllers.logger import Logger
 from emp.models.song import Song
 from emp.controllers.status import PlayerStatus
 from emp.services.player_service import PlayerService
@@ -7,6 +9,8 @@ import vlc
 
 
 class Player(metaclass=SingletonMeta):
+    logger = Logger()
+
     def __init__(self, pos, playerService: PlayerService):
         self.pos = pos
         # Create instance of VLC player
@@ -26,13 +30,19 @@ class Player(metaclass=SingletonMeta):
         self.player.set_media(media)
         # Play the media
 
-        self.player.play()
+        try:
+            self.player.play()
+        except Exception:
+            self.logger.error("Error playing song {next_song}")
+            time.sleep(1)
+            self.play()
+            
         previous_state = None
         while True:
             state = self.player.get_state()
             if state != previous_state:
                 previous_state = state
-                print(previous_state)
+                self.logger.debug(f"New state: {previous_state}")
                 player_status.set_status(state)
 
             if state == vlc.State.Playing:

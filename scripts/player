@@ -17,23 +17,13 @@ case "$1" in
     start)
         echo "Starting Exea Media Player..."
 
-
-        # Verify internet connection
-        echo "Cheking Internet connection..."
-        ping -c 4 www.google.com > /dev/null
-        if [ "$?" -eq 0 ]; then
-		echo "Internet connection was verified successfully..."
-        else
-    		echo "Warning: There are not Internet connection"
-        fi
-
         # Run streaming
         echo 'Loading streaming player...'
-        /home/pi/ExeaInternetRadio/emp/src/player.py & > /dev/null
+        /home/pi/exeamonitor_player/src/emp/emp.py & > /dev/null
         ;;
     stop)
         echo "Stopping Exea Media Player..."
-        killall player.py > /dev/null
+        killall emp.py > /dev/null
         if [ "$?" -eq 0 ]; then
             echo "Stopped"
         else

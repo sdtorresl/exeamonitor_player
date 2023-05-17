@@ -19,9 +19,9 @@ HOME_PI="/home/pi"
 echo "Installing git..."
 apt-get install git
 
-echo "Cloning repositories from http://github.com/jdcallet/ExeaInternetRadio..."
+echo "Cloning repositories from https://github.com/sdtorresl/exeamonitor_player..."
 cd $HOME_PI
-git clone http://github.com/jdcallet/ExeaInternetRadio
+git clone https://github.com/sdtorresl/exeamonitor_player
 
 # Verify that git works fine
 rc=$?
@@ -29,33 +29,27 @@ if [[ $rc != 0 ]] ; then
     exit $rc
 fi
 
-curl -s https://syncthing.net/release-key.txt | sudo apt-key add -
-echo "deb http://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
-
 echo "Updating system..."
 apt-get -y update
 
 echo "Installing some tools..."
-apt-get install -y python-dev python-setuptools python-pip mpg123 syncthing lirc liblircclient-dev oracle-java8-jdk
+apt-get install -y python3-vlc python3-dev python3-setuptools python3-pip lirc liblircclient-dev oracle-java8-jdk 
+
+echo "Installing dependencies"
+cd $HOME_PI/exeamonitor_player/src
+pip3 install -r requirements.txt
 
 rc=$?
 if [[ $rc != 0 ]] ; then
     exit $rc
 fi
 
-pip install rpi.gpio
-
-echo "Copying files for automatic initialization of syncthing..."
-cp $HOME_PI/ExeaInternetRadio/scripts/syncthing /etc/init.d/
-
-chmod +x /etc/init.d/syncthing
-update-rc.d syncthing defaults
 
 echo "Copying files for automatic initialization of software..."
-cp $HOME_PI/ExeaInternetRadio/scripts/player /etc/init.d/
+cp $HOME_PI/exeamonitor_player/scripts/player /etc/init.d/
 
 echo "Copying files for check sound..."
-cp $HOME_PI/ExeaInternetRadio/scripts/checkSound.sh /usr/bin/
+cp $HOME_PI/exeamonitor_player/scripts/checkSound.sh /usr/bin/
 
 # Verify command
 rc=$?
@@ -69,14 +63,6 @@ update-rc.d player defaults
 chmod +x /usr/bin/checkSound.sh
 (crontab -l 2>/dev/null; echo "@reboot sudo /usr/bin/checkSound.sh") | crontab -
 
-echo "Installing remote-iot..."
-cd $HOME_PI/ExeaInternetRadio/
-curl -s -L https://remote-iot.com/install/remote-iot-install.sh | sudo -s bash
-/etc/remote-iot/services/setup.sh
-
-echo "Installing Termcolor..."
-cd $HOME_PI/ExeaInternetRadio/lib/termcolor-1.1.0
-./setup.py install
 
 echo "Creating Music directory..."
 mkdir $HOME_PI/Music

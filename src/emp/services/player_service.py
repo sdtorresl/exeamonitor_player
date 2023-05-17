@@ -1,7 +1,9 @@
+from emp.controllers.logger import Logger
 from emp.models.song import Song
 from emp.repositories.local_player_repository import LocalPlayerRepository
 from emp.repositories.player_repository import PlayerRepository
 from emp.repositories.remote_player_repository import RemotePlayerRepository
+from emp.services.network_service import NetworkService
 from emp.utils.config import Config
 from emp.utils.singleton import SingletonMeta
 
@@ -16,6 +18,6 @@ class PlayerService(metaclass=SingletonMeta):
         pass
 
     def getNext(self, str) -> Song:
-        has_internet: bool = False
+        has_internet = NetworkService.check_internet_connection()
         repository =  RemotePlayerRepository(self.base_url) if (has_internet) else LocalPlayerRepository(self.base_path)
         return repository.getNext(str)
