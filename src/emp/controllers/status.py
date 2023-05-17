@@ -17,7 +17,7 @@ class PlayerStatus(metaclass=SingletonMeta):
     def __init__(self) -> None:
         self._status = None
         self.metadata = None
-        self._connectivity = Connectivity.OFFLINE
+        self._connectivity = Connectivity.ONLINE
 
     def get_status(self):
         return str(self._status.value) if self._status is not None else ""
@@ -39,6 +39,9 @@ class PlayerStatus(metaclass=SingletonMeta):
         return self._connectivity
 
     @connectivity.setter    
-    def connectivity(self, connectivity: Connectivity):
-        self._connectivity = connectivity
+    def connectivity(self, connectivity):
+        if isinstance(connectivity, Connectivity):
+            self._connectivity = connectivity
+        else:
+            raise ValueError("Invalid value for connectivity. Expected Connectivity.")
 

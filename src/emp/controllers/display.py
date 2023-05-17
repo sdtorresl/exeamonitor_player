@@ -1,6 +1,7 @@
 from datetime import datetime
 from time import sleep
 from emp.controllers.lcd import LCD
+from emp.controllers.logger import Logger
 from emp.controllers.status import PlayerStatus
 from emp.utils.network import get_ipaddress
 from emp.utils.config import Config
@@ -8,9 +9,11 @@ from emp.utils.config import Config
 
 def display():
     lcd = LCD()
+    logger = Logger()
+
     try:
         config : Config = Config()
-        player_status = PlayerStatus()
+        player_status : PlayerStatus = PlayerStatus()
 
         #logger.info('Player started!')
 
@@ -22,7 +25,7 @@ def display():
             #status = status[:4]
             lcd.clear()
             lcd.message(config.get_brand() + "\n")
-            lcd.message('Estado: ' + player_status.get_status() )
+            lcd.message('Estado: ' + str(player_status.connectivity))
             sleep(2)
 
             lcd.clear()
@@ -57,5 +60,7 @@ def display():
                 sleep(1)
                 i = i+1
                 pass
-    except KeyboardInterrupt:
+    except Exception as e:
         lcd.clear()
+        logger.critical(e)
+        display()

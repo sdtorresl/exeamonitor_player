@@ -20,4 +20,7 @@ class PlayerService(metaclass=SingletonMeta):
     def getNext(self, str) -> Song:
         has_internet = NetworkService.check_internet_connection()
         repository =  RemotePlayerRepository(self.base_url) if (has_internet) else LocalPlayerRepository(self.base_path)
-        return repository.getNext(str)
+        song = repository.getNext(str)
+        self.logger.info(f"Next song is {song.name}, from {song.artist.name}")
+        return song
+    

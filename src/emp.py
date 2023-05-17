@@ -30,10 +30,10 @@ def start_play():
 def display_info():
     try:
         display()
-    except:
+    except Exception as e:
         lcd = LCD()
         lcd.clear()
-        print("bye")
+        print(e)
 
 if __name__ == '__main__':
 

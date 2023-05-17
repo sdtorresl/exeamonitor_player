@@ -16,9 +16,4 @@ class RemotePlayerRepository(PlayerRepository):
         jsonResponse = requests.request("GET", endpoint)
         response = json.loads(jsonResponse.text)
         self.logger.debug(response)
-        song = Song.from_dict(response)
-
-        self.logger.info(f"Next song is {song.name}, from {song.artist.name}")
-        return song
-
-
+        return Song.from_dict(response)

@@ -40,10 +40,12 @@ class Player(metaclass=SingletonMeta):
         previous_state = None
         while True:
             state = self.player.get_state()
+
             if state != previous_state:
                 previous_state = state
-                self.logger.debug(f"New state: {previous_state}")
                 player_status.set_status(state)
+
+                self.logger.debug(f"New state: {previous_state}")
 
             if state == vlc.State.Playing:
                 self.__backoff = 1

@@ -1,14 +1,22 @@
 import configparser
 from emp.utils.singleton import SingletonMeta
-
+import os
 
 class Config(metaclass=SingletonMeta):
-    CONFIG_URL = "../config/config.ini"
+    CONFIG_URL = "../../../config/config.ini"
 
     def __init__(self) -> None:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # Use the root folder as the base for accessing files and directories
+        file_path = os.path.join(script_dir, self.CONFIG_URL)
+
+        print(script_dir)
+        print(file_path)
+        
         try:
             self.config = configparser.ConfigParser()
-            self.config.read(self.CONFIG_URL)
+            self.config.read(file_path)
         except:
             print('Unable to read config file ${CONFIG_FILE}')
 
