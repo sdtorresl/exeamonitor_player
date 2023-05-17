@@ -9,16 +9,15 @@ class NetworkService():
 
     @staticmethod
     def get_ipaddress():
+        interfaces = [interface for interface in netifaces.interfaces(
+        ) if interface.startswith("eth")]
 
-        for interface in netifaces.interfaces():
+        for interface in interfaces:
             addrs = netifaces.ifaddresses(interface)
             ip = addrs.get(netifaces.AF_INET)
 
-            if interface.startswith("eth"):
-                if ip is not None:
-                    ip = ip[0]
-                    if "addr" in ip:
-                        return "IP: " + ip['addr']
+            if ip and "addr" in ip[0]:
+                return "IP: " + ip[0]["addr"]
 
         return ""
 
