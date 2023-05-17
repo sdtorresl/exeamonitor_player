@@ -10,6 +10,7 @@ from emp.utils.singleton import SingletonMeta
 
 class PlayerService(metaclass=SingletonMeta):
     repository : PlayerRepository
+    logger = Logger()
 
     def __init__(self) -> None:
         self.config = Config()

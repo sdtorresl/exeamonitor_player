@@ -4,8 +4,8 @@ import requests
 from emp.controllers.logger import Logger
 from emp.controllers.status import Connectivity, PlayerStatus
 
-class NetworkService():
 
+class NetworkService():
 
     @staticmethod
     def get_ipaddress():
@@ -15,15 +15,17 @@ class NetworkService():
             ip = addrs.get(netifaces.AF_INET)
 
             if interface.startswith("eth"):
-                return "IP: " + ip[0]['addr']
+                if ip is not None:
+                    ip = ip[0]
+                    if "addr" in ip:
+                        return "IP: " + ip['addr']
 
-        return None
-
+        return ""
 
     @staticmethod
     def check_internet_connection() -> bool:
         logger = Logger()
-        playerStatus : PlayerStatus = PlayerStatus()
+        playerStatus: PlayerStatus = PlayerStatus()
 
         url = "http://www.google.com"
         timeout = 5  # Adjust the timeout value as needed

@@ -25,8 +25,8 @@ class LocalPlayerRepository(PlayerRepository):
         mp3 = MP3(url)
 
         # Access the metadata
-        title = mp3.get('title') if mp3.get('title') is not None else ""
-        artist = mp3.get('artist') if mp3.get('artist') is not None else ""
+        title = mp3.get('title') if mp3.get('title') is not None else "Titulo desconocido"
+        artist = mp3.get('artist') if mp3.get('artist') is not None else "Artista desconocido"
         album = mp3.get('album') if mp3.get('album') is not None else ""
 
         return Song(id="", title=title, name=title, url=url, artist=Artist(name=artist), art="")

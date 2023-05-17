@@ -10,8 +10,8 @@ class Status(Enum):
     UNKNOWN = 'Desconocido'
 
 class Connectivity(Enum):
-    ONLINE = 'En linea',
-    OFFLINE = 'Desconectado'
+    ONLINE = "En linea"
+    OFFLINE = "Desconectado"
 
 class PlayerStatus(metaclass=SingletonMeta):
     def __init__(self) -> None:
@@ -39,9 +39,10 @@ class PlayerStatus(metaclass=SingletonMeta):
         return self._connectivity
 
     @connectivity.setter    
-    def connectivity(self, connectivity):
-        if isinstance(connectivity, Connectivity):
-            self._connectivity = connectivity
+    def connectivity(self, conn_status):
+        if isinstance(conn_status, Connectivity):
+            print(self._connectivity)
+            self._connectivity = conn_status
         else:
             raise ValueError("Invalid value for connectivity. Expected Connectivity.")
 
