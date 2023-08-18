@@ -41,3 +41,6 @@ class Config(metaclass=SingletonMeta):
 
     def get_log_file(self):
         return self.config['LOGGER']['LOGFILE']
+    
+    def get_user(self):
+        return self.config['PLAYER']['USER']

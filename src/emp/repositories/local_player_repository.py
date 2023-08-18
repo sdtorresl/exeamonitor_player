@@ -29,7 +29,14 @@ class LocalPlayerRepository(PlayerRepository):
         artist = mp3.get('artist') if mp3.get('artist') is not None else "Artista desconocido"
         album = mp3.get('album') if mp3.get('album') is not None else ""
 
-        return Song(id="", title=title, name=title, url=url, artist=Artist(name=artist), art="")
+        values = [];
+        values['id'] = "";
+        values['title'] = title;
+        values['name'] = title;
+        values['url'] = url;
+        values['artist'] = artist;
+        values['art'] = "";
+        return values;
     
     
     def find_mp3_files(self, folder):

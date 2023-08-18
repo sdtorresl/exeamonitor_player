@@ -16,12 +16,13 @@ class PlayerService(metaclass=SingletonMeta):
         self.config = Config()
         self.base_url = self.config.get_url()
         self.base_path = self.config.get_backup_path()
+        self.user = self.config.get_user()
         pass
 
     def getNext(self, str) -> Song:
         has_internet = NetworkService.check_internet_connection()
-        repository =  RemotePlayerRepository(self.base_url) if (has_internet) else LocalPlayerRepository(self.base_path)
+        repository =  RemotePlayerRepository(self.base_url, self.user) if (has_internet) else LocalPlayerRepository(self.base_path)
         song = repository.getNext(str)
-        self.logger.info(f"Next song is {song.name}, from {song.artist.name}")
+        self.logger.info(f"Next song is {song['name']}, from {song['artist']}")
         return song
     
